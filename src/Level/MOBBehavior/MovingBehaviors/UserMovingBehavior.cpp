@@ -16,6 +16,17 @@ void UserMovingBehavior::update(const sf::Time& frameTime) {
 	if (wasGrounded && !m_isGrounded) {
 		m_jumpGraceTime = JUMP_GRACE_TIME;
 	}
+
+	// TEST STUFF - Remove later
+	if (m_isGrounded && !wasGrounded) {
+		// std::cout << "h: " <<  m_jumpHeightTest - m_startHeight << ", t: " << m_jumpTimeTest.asSeconds() << std::endl;
+	}
+	else {
+		m_jumpTimeTest += frameTime;
+		if (m_mainChar->getPosition().y < m_jumpHeightTest) m_jumpHeightTest = m_mainChar->getPosition().y;
+	}
+
+	m_frameTime = frameTime;
 }
 
 void UserMovingBehavior::checkCollisions(const sf::Vector2f& nextPosition) {
@@ -38,9 +49,26 @@ void UserMovingBehavior::handleMovementInput() {
 			m_nextIsFacingRight = true;
 			newAccelerationX += m_walkAcceleration;
 		}
+
+		float velY = m_isFlippedGravity ? m_configuredMaxVelocityYUp : -m_configuredMaxVelocityYUp;
 		if (g_inputController->isKeyJustPressed(Key::Jump) && (m_isGrounded || m_jumpGraceTime > sf::Time::Zero)) {
 			m_jumpGraceTime = sf::Time::Zero;
-			m_mainChar->setVelocityY(m_isFlippedGravity ? m_configuredMaxVelocityYUp : -m_configuredMaxVelocityYUp); // first jump vel will always be max y vel. 
+			m_jumpPressTime = sf::Time::Zero;
+			m_mainChar->setVelocityY(velY); // first jump vel will always be max y vel. 
+			
+			// TEST STUFF - Remove later
+			m_startHeight = m_mainChar->getPosition().y;
+			m_jumpHeightTest = m_startHeight;
+			m_jumpTimeTest = sf::Time::Zero;
+		}
+		else if (g_inputController->isKeyActive(Key::Jump)) {
+			m_jumpPressTime += m_frameTime;
+			if (m_jumpPressTime < sf::seconds(0.3f)) {
+				m_mainChar->setVelocityY(velY);
+			}
+		}
+		else {
+			m_jumpPressTime = sf::seconds(100.f);
 		}
 	}
 

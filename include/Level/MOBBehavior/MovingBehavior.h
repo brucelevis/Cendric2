@@ -70,7 +70,7 @@ protected:
 	bool m_isGrounded = false;
 	bool m_isFlippedGravity = false;
 	bool m_isBlockingSpell = false;
-	float m_gravity = 1000.f;
+	float m_gravity = 1900.f;
 	float m_walkAcceleration = 1500.f;
 	float m_configuredGravity = 1000.f;
 	float m_dampingGroundPerS = 1.f;

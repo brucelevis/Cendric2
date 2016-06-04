@@ -60,7 +60,7 @@ void LevelMainCharacter::render(sf::RenderTarget& target) {
 
 MovingBehavior* LevelMainCharacter::createMovingBehavior(bool asAlly) {
 	UserMovingBehavior* behavior = new UserMovingBehavior(this);
-	behavior->setMaxVelocityYUp(600.f);
+	behavior->setMaxVelocityYUp(450.f);
 	behavior->setMaxVelocityYDown(800.f);
 	behavior->setMaxVelocityX(200.f);
 	behavior->setDampingGroundPerS(0.999f);

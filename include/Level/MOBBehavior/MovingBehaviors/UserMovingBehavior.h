@@ -20,4 +20,10 @@ private:
 	// makes it easier to jump
 	static const sf::Time JUMP_GRACE_TIME;
 	sf::Time m_jumpGraceTime = sf::Time::Zero;
+	sf::Time m_jumpPressTime = sf::Time::Zero;
+	sf::Time m_frameTime = sf::Time::Zero;
+
+	float m_startHeight;
+	float m_jumpHeightTest;
+	sf::Time m_jumpTimeTest;
 };
